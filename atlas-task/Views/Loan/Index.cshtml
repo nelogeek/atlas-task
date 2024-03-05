@@ -1,31 +1,60 @@
-﻿@{
+﻿@using atlas_task.Models.ViewModels
+@model LoanInputViewModel
+
+@{
     ViewData["Title"] = "Кредитный калькулятор";
 }
 
-@model Loan
-
 <h1>@ViewData["Title"]</h1>
 
-<div class="mt-4 d-flex">
-    <div class="">
-        <form asp-controller="Loan" asp-action="Calculate" method="post">
-            <div class="form-group">
-                <label asp-for="LoanAmount">Сумма займа:</label>
-                <input asp-for="LoanAmount" class="form-control" id="LoanAmount" pattern="[0-9]+(\,[0-9]+)?" title="100,50" required />
-                <span asp-validation-for="LoanAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LoanTerm">Срок займа (в месяцах):</label>
-                <input asp-for="LoanTerm" class="form-control" id="LoanTerm" required />
-                <span asp-validation-for="LoanTerm" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InterestRate">Ставка (в год):</label>
-                <input asp-for="InterestRate" class="form-control" id="InterestRate" required />
-                <span asp-validation-for="InterestRate" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary mt-2">Рассчитать</button>
-        </form>
+<div class="mt-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h3>Основное задание</h3>
+            <form asp-controller="Loan" asp-action="Calculate" method="post">
+                <div class="form-group">
+                    <label asp-for="loan.LoanAmount"></label>
+                    <input asp-for="loan.LoanAmount" class="form-control" pattern="[0-9]+(\,[0-9]+)?" title="100,50" required autocomplete="off" />
+                    <span asp-validation-for="loan.LoanAmount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="loan.LoanTerm"></label>
+                    <input asp-for="loan.LoanTerm" class="form-control" required autocomplete="off" />
+                    <span asp-validation-for="loan.LoanTerm" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="loan.InterestRate"></label>
+                    <input asp-for="loan.InterestRate" class="form-control" required autocomplete="off" />
+                    <span asp-validation-for="loan.InterestRate" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2 btn-block">Рассчитать</button>
+            </form>
+        </div>
+        <div class="col-md-6 mx-auto">
+            <h3>Дополнительное задание</h3>
+            <form asp-controller="Loan" asp-action="CalculateAdditionalTask" method="post">
+                <div class="form-group">
+                    <label asp-for="loanDop.LoanAmount"></label>
+                    <input asp-for="loanDop.LoanAmount" class="form-control" pattern="[0-9]+(\,[0-9]+)?" title="100,50" required autocomplete="off" />
+                    <span asp-validation-for="loanDop.LoanAmount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="loanDop.LoanTermInDays"></label>
+                    <input asp-for="loanDop.LoanTermInDays" class="form-control" required autocomplete="off" />
+                    <span asp-validation-for="loanDop.LoanTermInDays" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="loanDop.InterestRatePerDay"></label>
+                    <input asp-for="loanDop.InterestRatePerDay" class="form-control" required autocomplete="off" />
+                    <span asp-validation-for="loanDop.InterestRatePerDay" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="loanDop.PaymentStepInDays"></label>
+                    <input asp-for="loanDop.PaymentStepInDays" class="form-control" required autocomplete="off" />
+                    <span asp-validation-for="loanDop.PaymentStepInDays" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2 btn-block">Рассчитать</button>
+            </form>
+        </div>
     </div>
-    
 </div>

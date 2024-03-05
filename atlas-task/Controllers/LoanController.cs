@@ -29,14 +29,38 @@ namespace atlas_task.Controllers
                 var sumPrincipalPayments = schedule.Sum(payment => payment.PrincipalPayment);
                 var totalOverpayment = sumInterestPayments + sumPrincipalPayments;
 
+                // Создание экземпляра модели LoanInputViewModel
+                var loanInputViewModel = new LoanInputViewModel
+                {
+                    loan = loan, // Здесь передаем объект loan
+                    loanDop = new LoanDop() // Здесь можно передать объект LoanDop, если необходимо
+                };
 
                 var viewModel = new PaymentResultsViewModel { Payments = schedule, TotalOverpayment = totalOverpayment };
-                // Вернуть представление с расписанием платежей и моделью представления
-                return View("Schedule", viewModel);
 
+                return View("Schedule", viewModel);
             }
 
-            return View("Index", loan);
+            // Возвращаем представление "Index" с моделью типа LoanInputViewModel
+            return View("Index", new LoanInputViewModel());
+        }
+
+
+
+        [HttpPost]
+        public IActionResult CalculateAdditionalTask(LoanDop loanDop)
+        {
+            if (ModelState.IsValid)
+            {
+                var schedule = _loanService.CalculateAdditionalLoanSchedule(loanDop);
+                var viewModel = new PaymentResultsViewModel
+                {
+                    Payments = schedule,
+                    TotalOverpayment = schedule.Sum(payment => payment.InterestPayment)
+                };
+                return View("Schedule", viewModel);
+            }
+            return View("Index", loanDop);
         }
 
 
